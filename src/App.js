@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import './App.scss';
+// import {useDispatch} from "react-redux";
+import Header from "./components/Header/Header";
+import {useState} from "react";
+import {Route, Routes} from "react-router-dom";
+import Products from "./components/page/products/Products";
+import Basket from "./components/page/basket/Basket";
+import Favorite from "./components/page/favorite/Favorite";
+// useSelector
+// useDispatch
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [dark, setDark] = useState(JSON.parse(localStorage.getItem('dark')) || false)
+
+    function getDark() {
+        setDark(!dark)
+        localStorage.setItem('dark', JSON.stringify(!dark))
+    }
+
+    // const dispatch = useDispatch()
+
+    return (
+        <div style={{
+            background: dark ? '#26BDA4' : '',
+            color: dark ? '#FFF' : '#FFF'
+        }}>
+            <Header getDark={getDark} dark={dark}/>
+            <Routes>
+                <Route path={'/'} element={<Products/>}/>
+                <Route path={'/basket'} element={<Basket/>}/>
+                <Route path={'/favorite'} element={<Favorite/>}/>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
